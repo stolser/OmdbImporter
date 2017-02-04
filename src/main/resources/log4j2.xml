@@ -21,12 +21,12 @@
         <!--</RollingFile>-->
     </Appenders>
     <Loggers>
-        <Root level="debug">
+        <Root level="info">
             <AppenderRef ref="Console"/>
         </Root>
-        <!--<Logger name="com.stolser.javatraining" level="debug" additivity="false">-->
-            <!--<AppenderRef ref="Console"/>-->
-        <!--</Logger>-->
+        <Logger name="com.stolser" level="debug" additivity="false">
+            <AppenderRef ref="Console"/>
+        </Logger>
         <!--<Logger name="com.stolser.javatraining" level="error" additivity="false">-->
             <!--<AppenderRef ref="ErrorLogFile"/>-->
         <!--</Logger>-->
