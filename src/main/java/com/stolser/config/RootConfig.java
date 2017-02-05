@@ -2,6 +2,9 @@ package com.stolser.config;
 
 import com.stolser.controller.VideoImporter;
 import com.stolser.controller.VideoImporterImpl;
+import com.stolser.search.ConcurrentIdSearchEngine;
+import com.stolser.search.IdSearchEngine;
+import com.stolser.search.SearchUtils;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.*;
@@ -12,6 +15,7 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.Database;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.client.RestTemplate;
 
 import javax.sql.DataSource;
 
@@ -64,6 +68,21 @@ public class RootConfig {
     @Bean
     public VideoImporter videoImporter() {
         return new VideoImporterImpl();
+    }
+
+    @Bean
+    public RestTemplate restTemplate() {
+        return new RestTemplate();
+    }
+
+    @Bean
+    public IdSearchEngine searchEngine() {
+        return new ConcurrentIdSearchEngine();
+    }
+
+    @Bean
+    public SearchUtils searchUtils() {
+        return new SearchUtils();
     }
 
 //    @Bean
