@@ -11,4 +11,20 @@ public class Series extends Video {
 
     @OneToMany(mappedBy="series", cascade={CascadeType.ALL})
     private List<Episode> episodes;
+
+    public int getTotalSeasons() {
+        return totalSeasons;
+    }
+
+    public void setTotalSeasons(int totalSeasons) {
+        this.totalSeasons = totalSeasons;
+    }
+
+    public List<Episode> getEpisodes() {
+        return episodes;
+    }
+
+    public void setEpisodes(List<Episode> episodes) {
+        this.episodes = episodes;
+    }
 }
