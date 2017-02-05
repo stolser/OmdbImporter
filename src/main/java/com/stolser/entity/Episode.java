@@ -2,7 +2,7 @@ package com.stolser.entity;
 
 import javax.persistence.*;
 
-@Entity
+@Entity(name = "episode")
 @DiscriminatorValue(value = "episode")
 public class Episode extends Video {
     @Column(name = "episode_number")
