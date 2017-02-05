@@ -1,5 +1,7 @@
 package com.stolser.config;
 
+import com.stolser.controller.VideoImporter;
+import com.stolser.controller.VideoImporterImpl;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.*;
@@ -57,6 +59,11 @@ public class RootConfig {
         adapter.setGenerateDdl(true);
 //        adapter.setDatabasePlatform();
         return adapter;
+    }
+
+    @Bean
+    public VideoImporter videoImporter() {
+        return new VideoImporterImpl();
     }
 
 //    @Bean
