@@ -16,7 +16,10 @@ import javax.sql.DataSource;
 @Configuration
 @ComponentScan(basePackages = {"com.stolser"})
 @EnableJpaRepositories(basePackages = {"com.stolser.repository"})
-@PropertySource("classpath:application.properties")
+@PropertySources({
+        @PropertySource("classpath:config/dbConfig.properties"),
+        @PropertySource("classpath:config/videoImportConfig.properties")
+})
 @EnableTransactionManagement(mode = AdviceMode.PROXY)
 public class RootConfig {
     @Autowired

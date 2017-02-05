@@ -102,7 +102,19 @@ public abstract class Video {
     private int version;
 
     public enum MediaType {
-        MOVIE, SERIES, EPISODE
+        MOVIE("formPage.movie.label"),
+        SERIES("formPage.series.label"),
+        EPISODE("formPage.episode.label");
+
+        private String messageKey;
+
+        MediaType(String messageKey) {
+            this.messageKey = messageKey;
+        }
+
+        public String getMessageKey() {
+            return messageKey;
+        }
     }
 
     public enum MpaaRating {
