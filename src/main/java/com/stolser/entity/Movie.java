@@ -6,4 +6,6 @@ import javax.persistence.Entity;
 @Entity(name = "movie")
 @DiscriminatorValue(value = "movie")
 public class Movie extends Video {
+    protected Movie() {
+    }
 }

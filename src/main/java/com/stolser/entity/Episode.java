@@ -6,7 +6,7 @@ import javax.persistence.*;
 @DiscriminatorValue(value = "episode")
 public class Episode extends Video {
     @Column(name = "episode_number")
-    private int number;
+    private int episodeNumber;
 
     @Column(name = "season_number")
     private int seasonNumber;
@@ -15,12 +15,14 @@ public class Episode extends Video {
     @JoinColumn(name = "series")
     private Series series;
 
-    public int getNumber() {
-        return number;
+    protected Episode() {}
+
+    public int getEpisodeNumber() {
+        return episodeNumber;
     }
 
-    public void setNumber(int number) {
-        this.number = number;
+    public void setEpisodeNumber(int episodeNumber) {
+        this.episodeNumber = episodeNumber;
     }
 
     public int getSeasonNumber() {

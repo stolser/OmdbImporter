@@ -18,10 +18,10 @@ public class Year {
     private Long id;
 
     @Column(name = "year_begin")
-    private int begin;
+    private String begin;
 
     @Column(name = "year_end")
-    private int end;
+    private String end;
 
     @Enumerated(value = EnumType.STRING)
     @Column(name = "type")
@@ -48,19 +48,19 @@ public class Year {
         this.id = id;
     }
 
-    public int getBegin() {
+    public String getBegin() {
         return begin;
     }
 
-    public void setBegin(int begin) {
+    public void setBegin(String begin) {
         this.begin = begin;
     }
 
-    public int getEnd() {
+    public String getEnd() {
         return end;
     }
 
-    public void setEnd(int end) {
+    public void setEnd(String end) {
         this.end = end;
     }
 

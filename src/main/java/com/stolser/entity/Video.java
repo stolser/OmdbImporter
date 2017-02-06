@@ -26,7 +26,7 @@ public abstract class Video {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "video_type")
-    private MediaType mediaType;
+    private Type type;
 
     @Column(name = "title")
     private String title;
@@ -48,6 +48,7 @@ public abstract class Video {
 
     @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(name = "genre")
+    @Enumerated(value = EnumType.STRING)
     @Column(name = "genre_name")
     private List<Genre> genres;
 
@@ -101,14 +102,14 @@ public abstract class Video {
     @Version
     private int version;
 
-    public enum MediaType {
+    public enum Type {
         MOVIE("formPage.movie.label"),
         SERIES("formPage.series.label"),
         EPISODE("formPage.episode.label");
 
         private String messageKey;
 
-        MediaType(String messageKey) {
+        Type(String messageKey) {
             this.messageKey = messageKey;
         }
 
@@ -122,6 +123,7 @@ public abstract class Video {
         PG("pg.shortDescription", "pg.longDescription"),
         PG_13("pg_13.shortDescription", "pg_13.longDescription"),
         TV_14("tv_14.shortDescription", "tv_14.longDescription"),
+        TV_MA("tv_14.shortDescription", "tv_14.shortDescription"),
         R("r.shortDescription", "r.longDescription"),
         X("x.shortDescription", "x.longDescription"),
         NC_17("nc_17.shortDescription", "nc_17.longDescription"),
@@ -151,6 +153,14 @@ public abstract class Video {
         SPORT, HISTORY, WESTERN, WAR, BIOGRAPHY, ADULT;
     }
 
+    public int getVersion() {
+        return version;
+    }
+
+    public void setVersion(int version) {
+        this.version = version;
+    }
+
     public Long getId() {
         return id;
     }
@@ -167,12 +177,12 @@ public abstract class Video {
         this.imdbId = imdbId;
     }
 
-    public MediaType getMediaType() {
-        return mediaType;
+    public Type getType() {
+        return type;
     }
 
-    public void setMediaType(MediaType mediaType) {
-        this.mediaType = mediaType;
+    public void setType(Type type) {
+        this.type = type;
     }
 
     public String getTitle() {
@@ -319,14 +329,6 @@ public abstract class Video {
         this.tomatoesRating = tomatoesRating;
     }
 
-    public int getVersion() {
-        return version;
-    }
-
-    public void setVersion(int version) {
-        this.version = version;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -338,17 +340,102 @@ public abstract class Video {
 
         Video video = (Video) o;
 
-        if (id != null ? !id.equals(video.id) : video.id != null) {
+        if (metascore != video.metascore) {
             return false;
         }
-        return imdbId != null ? imdbId.equals(video.imdbId) : video.imdbId == null;
+        if (Double.compare(video.imdbRating, imdbRating) != 0) {
+            return false;
+        }
+        if (imdbVotes != video.imdbVotes) {
+            return false;
+        }
+        if (imdbId != null ? !imdbId.equals(video.imdbId) : video.imdbId != null) {
+            return false;
+        }
+        if (type != video.type) {
+            return false;
+        }
+        if (title != null ? !title.equals(video.title) : video.title != null) {
+            return false;
+        }
+        if (year != null ? !year.equals(video.year) : video.year != null) {
+            return false;
+        }
+        if (mpaaRating != video.mpaaRating) {
+            return false;
+        }
+        if (releaseDate != null ? !releaseDate.equals(video.releaseDate) : video.releaseDate != null) {
+            return false;
+        }
+        if (runtime != null ? !runtime.equals(video.runtime) : video.runtime != null) {
+            return false;
+        }
+        if (genres != null ? !genres.equals(video.genres) : video.genres != null) {
+            return false;
+        }
+        if (directors != null ? !directors.equals(video.directors) : video.directors != null) {
+            return false;
+        }
+        if (writers != null ? !writers.equals(video.writers) : video.writers != null) {
+            return false;
+        }
+        if (actors != null ? !actors.equals(video.actors) : video.actors != null) {
+            return false;
+        }
+        if (plot != null ? !plot.equals(video.plot) : video.plot != null) {
+            return false;
+        }
+        if (languages != null ? !languages.equals(video.languages) : video.languages != null) {
+            return false;
+        }
+        if (countries != null ? !countries.equals(video.countries) : video.countries != null) {
+            return false;
+        }
+        if (awards != null ? !awards.equals(video.awards) : video.awards != null) {
+            return false;
+        }
+        if (poster != null ? !poster.equals(video.poster) : video.poster != null) {
+            return false;
+        }
+        return tomatoesRating != null ? tomatoesRating.equals(video.tomatoesRating) : video.tomatoesRating == null;
 
     }
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (imdbId != null ? imdbId.hashCode() : 0);
+        int result;
+        long temp;
+        result = imdbId != null ? imdbId.hashCode() : 0;
+        result = 31 * result + (type != null ? type.hashCode() : 0);
+        result = 31 * result + (title != null ? title.hashCode() : 0);
+        result = 31 * result + (year != null ? year.hashCode() : 0);
+        result = 31 * result + (mpaaRating != null ? mpaaRating.hashCode() : 0);
+        result = 31 * result + (releaseDate != null ? releaseDate.hashCode() : 0);
+        result = 31 * result + (runtime != null ? runtime.hashCode() : 0);
+        result = 31 * result + (genres != null ? genres.hashCode() : 0);
+        result = 31 * result + (directors != null ? directors.hashCode() : 0);
+        result = 31 * result + (writers != null ? writers.hashCode() : 0);
+        result = 31 * result + (actors != null ? actors.hashCode() : 0);
+        result = 31 * result + (plot != null ? plot.hashCode() : 0);
+        result = 31 * result + (languages != null ? languages.hashCode() : 0);
+        result = 31 * result + (countries != null ? countries.hashCode() : 0);
+        result = 31 * result + (awards != null ? awards.hashCode() : 0);
+        result = 31 * result + (poster != null ? poster.hashCode() : 0);
+        result = 31 * result + metascore;
+        temp = Double.doubleToLongBits(imdbRating);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        result = 31 * result + (int) (imdbVotes ^ (imdbVotes >>> 32));
+        result = 31 * result + (tomatoesRating != null ? tomatoesRating.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Video{id=%d, imdbId='%s', type=%s, title='%s', year=%s, mpaaRating=%s, " +
+                "releaseDate=%s, runtime=%s, genres=%s, directors=%s, writers=%s, actors=%s, plot='%s', " +
+                "languages=%s, countries=%s, awards='%s', poster='%s', metascore=%d, imdbRating=%s, " +
+                "imdbVotes=%d, version=%d}", id, imdbId, type, title, year, mpaaRating, releaseDate,
+                runtime, genres, directors, writers, actors, plot, languages, countries, awards, poster,
+                metascore, imdbRating, imdbVotes, version);
     }
 }

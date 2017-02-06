@@ -51,4 +51,9 @@ public class Runtime {
         result = 31 * result + minutes;
         return result;
     }
+
+    @Override
+    public String toString() {
+        return String.format("Runtime{original='%s', minutes=%d}", original, minutes);
+    }
 }

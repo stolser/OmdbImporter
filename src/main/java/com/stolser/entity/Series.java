@@ -1,6 +1,7 @@
 package com.stolser.entity;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity(name = "series")
@@ -11,6 +12,10 @@ public class Series extends Video {
 
     @OneToMany(mappedBy="series", cascade={CascadeType.ALL})
     private List<Episode> episodes;
+
+    protected Series() {
+        episodes = new ArrayList<>();
+    }
 
     public int getTotalSeasons() {
         return totalSeasons;
