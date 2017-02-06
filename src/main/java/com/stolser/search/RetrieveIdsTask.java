@@ -24,11 +24,11 @@ class RetrieveIdsTask extends RecursiveTask<List<String>> {
 
     @Override
     protected List<String> compute() {
-        if(canBeProcessedByOneThread()) {
+        if (canBeProcessedByOneThread()) {
             return retrieveImdbIds();
 
         } else {
-            int middle = (lastPage - firstPage)/2;
+            int middle = (lastPage - firstPage) / 2;
             RetrieveIdsTask first = new RetrieveIdsTask(firstPage, middle, searchUri);
             first.fork();
 
@@ -40,6 +40,10 @@ class RetrieveIdsTask extends RecursiveTask<List<String>> {
         }
     }
 
+    private boolean canBeProcessedByOneThread() {
+        return (lastPage - firstPage - 1) <= MAX_PAGES_FOR_ONE_THREAD;
+    }
+
     private List<String> retrieveImdbIds() {
         List<String> imdbIds = new ArrayList<>();
         String uriWithoutPage = searchUri.toString();
@@ -48,16 +52,13 @@ class RetrieveIdsTask extends RecursiveTask<List<String>> {
         for (int i = firstPage; i <= lastPage; i++) {
             uriWithPage = uriWithoutPage + "&page=" + i;
 
-            SearchTitleResult result = searchUtils.getSearchTitleResult(URI.create(uriWithPage));
+            SearchTitleResult result = searchUtils.getSearchResult(
+                    URI.create(uriWithPage), SearchTitleResult.class);
             if (result.isSuccess()) {
                 imdbIds.addAll(result.getImdbIds());
             }
         }
 
         return imdbIds;
-    }
-
-    private boolean canBeProcessedByOneThread() {
-        return (lastPage - firstPage - 1) <= MAX_PAGES_FOR_ONE_THREAD;
     }
 }

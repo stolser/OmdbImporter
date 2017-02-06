@@ -12,7 +12,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.net.URI;
 import java.util.concurrent.TimeUnit;
 
-class SearchUtils {
+public class SearchUtils {
     private static final Logger LOGGER = LoggerFactory.getLogger(SearchUtils.class);
     private static final String BASIC_OMDBAPI_URL = "http://www.omdbapi.com/";
     private static final String SEARCH_PARAM = "s";
@@ -20,19 +20,24 @@ class SearchUtils {
     private static final String YEAR_PARAM = "y";
     private static final int SEARCH_REQUEST_ATTEMPTS_MAX = 2;
     private static final int WAIT_TIME_BEFORE_RETRY = 2;
+    private static final String ID_PARAM = "i";
+    private static final String PLOT_PARAM = "plot";
+    private static final String TOMATOES_PARAM = "tomatoes";
+    private static final String FULL_VALUE = "full";
+    private static final String TRUE_VALUE = "true";
 
     @Autowired
     private RestTemplate restTemplate;
 
-    SearchTitleResult getSearchTitleResult(URI searchUri) {
-        ResponseEntity<SearchTitleResult> responseEntity;
+    <T> T getSearchResult(URI searchUri, Class<T> tClass) {
+        ResponseEntity<T> responseEntity;
         int attemptNumber = 0;
 
         do {
             checkTimeout(attemptNumber, searchUri);
             LOGGER.debug("before getting url: '{}'", searchUri);
 
-            responseEntity = restTemplate.getForEntity(searchUri, SearchTitleResult.class);
+            responseEntity = restTemplate.getForEntity(searchUri, tClass);
             attemptNumber++;
 
         } while (!isStatusCodeOk(responseEntity));
@@ -49,7 +54,8 @@ class SearchUtils {
             try {
                 Thread.sleep(TimeUnit.SECONDS.toMillis(WAIT_TIME_BEFORE_RETRY));
             } catch (InterruptedException e) {
-                throw new RuntimeException(e);
+                String message = String.format("Sleeping during getting a uri (%s) was interrupted.", searchUri);
+                LOGGER.error(message, e);
             }
         }
     }
@@ -58,7 +64,7 @@ class SearchUtils {
         return responseEntity.getStatusCode() == HttpStatus.OK;
     }
 
-    URI getSearchUri(SearchParameters params) {
+    URI getSearchWithParamsUri(SearchParameters params) {
         UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromUriString(BASIC_OMDBAPI_URL)
                 .queryParam(SEARCH_PARAM, params.getSearchText())
                 .queryParam(TYPE_PARAM, params.getSearchVideoType().toString().toLowerCase());
@@ -73,5 +79,14 @@ class SearchUtils {
         if (yearParam != 0) {
             uriBuilder.queryParam(YEAR_PARAM, yearParam);
         }
+    }
+
+    URI getSearchWithIdUri(String id) {
+        UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromUriString(BASIC_OMDBAPI_URL)
+                .queryParam(ID_PARAM, id)
+                .queryParam(PLOT_PARAM, FULL_VALUE)
+                .queryParam(TOMATOES_PARAM, TRUE_VALUE);
+
+        return uriBuilder.build().toUri();
     }
 }

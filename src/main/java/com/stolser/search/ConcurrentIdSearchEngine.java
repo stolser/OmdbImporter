@@ -24,8 +24,8 @@ public class ConcurrentIdSearchEngine implements IdSearchEngine {
 
     @Override
     public List<String> findVideoIds(SearchParameters params) {
-        URI searchUri = searchUtils.getSearchUri(params);
-        SearchTitleResult firstResult = searchUtils.getSearchTitleResult(searchUri);
+        URI searchUri = searchUtils.getSearchWithParamsUri(params);
+        SearchTitleResult firstResult = searchUtils.getSearchResult(searchUri, SearchTitleResult.class);
 
         return firstResult.isSuccess() ? retrieveAllImdbIds(searchUri, firstResult) : new ArrayList<>();
     }
