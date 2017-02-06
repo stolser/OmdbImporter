@@ -6,7 +6,7 @@
 
         <form class="form-horizontal" role="form"
               method="post"
-              action="${ApplicationResources.IMPORT_FORM_URI}">
+              action="/videos">
 
             <div class="form-group">
                 <h3><fmt:message key="formPage.title.top"/></h3>

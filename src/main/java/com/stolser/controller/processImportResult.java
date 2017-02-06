@@ -1,25 +1,27 @@
 package com.stolser.controller;
 
 public class ProcessImportResult {
-    public static final String RESULT_SUCCESS = "formPage.import.success";
-    public static final String RESULT_ERROR = "formPage.import.error";
+    public static final String RESULT_SUCCESS_MSG = "formPage.import.success";
+    public static final String RESULT_ERROR_MSG = "formPage.import.error";
+    public static final ProcessImportResult ERROR =
+            new ProcessImportResult(false, ProcessImportResult.RESULT_ERROR_MSG, 0);
 
-    private boolean success;
+    private boolean isSuccess;
     private String message;
     private int savedVideos;
 
-    public ProcessImportResult(boolean success, String message, int savedVideos) {
-        this.success = success;
+    public ProcessImportResult(boolean isSuccess, String message, int savedVideos) {
+        this.isSuccess = isSuccess;
         this.message = message;
         this.savedVideos = savedVideos;
     }
 
     public boolean isSuccess() {
-        return success;
+        return isSuccess;
     }
 
     public void setSuccess(boolean success) {
-        this.success = success;
+        this.isSuccess = success;
     }
 
     public String getMessage() {
@@ -49,7 +51,7 @@ public class ProcessImportResult {
 
         ProcessImportResult result = (ProcessImportResult) o;
 
-        if (success != result.success) {
+        if (isSuccess != result.isSuccess) {
             return false;
         }
         if (savedVideos != result.savedVideos) {
@@ -61,7 +63,7 @@ public class ProcessImportResult {
 
     @Override
     public int hashCode() {
-        int result = (success ? 1 : 0);
+        int result = (isSuccess ? 1 : 0);
         result = 31 * result + (message != null ? message.hashCode() : 0);
         result = 31 * result + savedVideos;
         return result;

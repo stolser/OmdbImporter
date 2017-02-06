@@ -2,9 +2,7 @@ package com.stolser.config;
 
 import com.stolser.controller.VideoImporter;
 import com.stolser.controller.VideoImporterImpl;
-import com.stolser.search.ConcurrentIdSearchEngine;
-import com.stolser.search.IdSearchEngine;
-import com.stolser.search.SearchUtils;
+import com.stolser.search.*;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.*;
@@ -83,6 +81,11 @@ public class RootConfig {
     @Bean
     public SearchUtils searchUtils() {
         return new SearchUtils();
+    }
+
+    @Bean
+    public VideoSearchEngine videoSearchEngine() {
+        return new ConcurrentVideoSearchEngine();
     }
 
 //    @Bean

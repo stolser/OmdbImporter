@@ -1,7 +1,5 @@
 package com.stolser.controller;
 
-import javax.batch.operations.JobOperator;
-import javax.batch.runtime.BatchRuntime;
 import java.util.Properties;
 
 import static com.stolser.ApplicationResources.*;
@@ -10,8 +8,8 @@ public class VideoImporterImpl implements VideoImporter {
     @Override
     public ProcessImportResult importVideo(SearchParameters params) {
         System.out.println("starting the job...");
-        JobOperator jobOperator = BatchRuntime.getJobOperator();
-        jobOperator.start("importVideo", new Properties());
+//        JobOperator jobOperator = BatchRuntime.getJobOperator();
+//        jobOperator.start("importVideo", new Properties());
         System.out.println("... the job was completed.");
 
          return new ProcessImportResult(true, ProcessImportResult.RESULT_SUCCESS_MSG, 11);

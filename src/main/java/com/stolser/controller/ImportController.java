@@ -41,12 +41,12 @@ public class ImportController {
         return IMPORT_FORM_VIEW_NAME;
     }
 
-    private List<Video.MediaType> getVideoTypes() {
-        List<Video.MediaType> mediaTypes = new ArrayList<Video.MediaType>();
-        mediaTypes.add(Video.MediaType.MOVIE);
-        mediaTypes.add(Video.MediaType.SERIES);
+    private List<Video.Type> getVideoTypes() {
+        List<Video.Type> types = new ArrayList<>();
+        types.add(Video.Type.MOVIE);
+        types.add(Video.Type.SERIES);
 
-        return mediaTypes;
+        return types;
     }
 
     @RequestMapping(method = POST)
@@ -54,10 +54,9 @@ public class ImportController {
         ProcessImportResult result;
         if (errors.hasErrors()) {
             LOGGER.debug("Error during validation. Errors: " + errors.getAllErrors());
-            result = new ProcessImportResult(false, ProcessImportResult.RESULT_ERROR, 0);
+            result = ProcessImportResult.ERROR;
         } else {
             LOGGER.debug("params = " + params);
-
             result = videoImporter.importVideo(params);
         }
 

@@ -5,11 +5,11 @@ import com.stolser.entity.Video;
 public class SearchParameters {
     private String searchText;
     private int searchYear;
-    private Video.MediaType searchVideoType;
+    private Video.Type searchVideoType;
 
     public SearchParameters() {}
 
-    public SearchParameters(String searchText, int searchYear, Video.MediaType searchVideoType) {
+    public SearchParameters(String searchText, int searchYear, Video.Type searchVideoType) {
         this.searchText = searchText;
         this.searchYear = searchYear;
         this.searchVideoType = searchVideoType;
@@ -31,11 +31,11 @@ public class SearchParameters {
         this.searchYear = searchYear;
     }
 
-    public Video.MediaType getSearchVideoType() {
+    public Video.Type getSearchVideoType() {
         return searchVideoType;
     }
 
-    public void setSearchVideoType(Video.MediaType searchVideoType) {
+    public void setSearchVideoType(Video.Type searchVideoType) {
         this.searchVideoType = searchVideoType;
     }
 
