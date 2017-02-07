@@ -2,7 +2,7 @@ package com.stolser.search;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class SearchTitleItem {
+public class SearchItem {
     @JsonProperty("imdbID")
     private String imdbId;
 

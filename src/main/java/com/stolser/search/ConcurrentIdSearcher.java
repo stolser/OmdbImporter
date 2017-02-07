@@ -13,24 +13,24 @@ import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.RecursiveTask;
 import java.util.concurrent.TimeUnit;
 
-public class ConcurrentIdSearchEngine implements IdSearchEngine {
-    private static final Logger LOGGER = LoggerFactory.getLogger(SearchUtils.class);
+public class ConcurrentIdSearcher implements IdSearcher {
+    private static final Logger LOGGER = LoggerFactory.getLogger(RawResultsSearcherImpl.class);
     private static final int RESULT_ITEMS_ON_PAGE = 10;
     private static final int NUMBER_OF_THREADS = 10;
     private static final int MAX_WAITING_TIME = 20;
 
     @Autowired
-    SearchUtils searchUtils;
+    RawResultsSearcher rawResultsSearcher;
 
     @Override
-    public List<String> findVideoIds(SearchParameters params) {
-        URI searchUri = searchUtils.getSearchWithParamsUri(params);
-        SearchTitleResult firstResult = searchUtils.getSearchResult(searchUri, SearchTitleResult.class);
+    public List<String> searchImdbIds(SearchParameters params) {
+        URI searchUri = SearchUriProvider.getUriToSearchByParams(params);
+        MultiVideoResult firstResult = rawResultsSearcher.searchRawResults(searchUri, MultiVideoResult.class);
 
-        return firstResult.isSuccess() ? retrieveAllImdbIds(searchUri, firstResult) : new ArrayList<>();
+        return firstResult.isSuccess() ? searchAllImdbIds(searchUri, firstResult) : new ArrayList<>();
     }
 
-    private List<String> retrieveAllImdbIds(URI searchUri, SearchTitleResult firstResult) {
+    private List<String> searchAllImdbIds(URI searchUri, MultiVideoResult firstResult) {
         ForkJoinPool pool = new ForkJoinPool(NUMBER_OF_THREADS);
         RecursiveTask<List<String>> task = new RetrieveIdsTask(1, getTotalPages(firstResult), searchUri);
         pool.invoke(task);
@@ -76,7 +76,7 @@ public class ConcurrentIdSearchEngine implements IdSearchEngine {
         }
     }
 
-    private int getTotalPages(SearchTitleResult result) {
+    private int getTotalPages(MultiVideoResult result) {
         return (result.getTotalResults() / RESULT_ITEMS_ON_PAGE) + 1;
     }
 }

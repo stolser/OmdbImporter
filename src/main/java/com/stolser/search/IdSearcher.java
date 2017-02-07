@@ -4,6 +4,6 @@ import com.stolser.controller.SearchParameters;
 
 import java.util.List;
 
-public interface IdSearchEngine {
-    List<String> findVideoIds(SearchParameters params);
+public interface IdSearcher {
+    List<String> searchImdbIds(SearchParameters params);
 }

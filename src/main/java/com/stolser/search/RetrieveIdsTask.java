@@ -14,7 +14,7 @@ class RetrieveIdsTask extends RecursiveTask<List<String>> {
     private URI searchUri;
 
     @Autowired
-    SearchUtils searchUtils;
+    RawResultsSearcher rawResultsSearcher;
 
     RetrieveIdsTask(int firstPage, int lastPage, URI searchUri) {
         this.firstPage = firstPage;
@@ -52,8 +52,8 @@ class RetrieveIdsTask extends RecursiveTask<List<String>> {
         for (int i = firstPage; i <= lastPage; i++) {
             uriWithPage = uriWithoutPage + "&page=" + i;
 
-            SearchTitleResult result = searchUtils.getSearchResult(
-                    URI.create(uriWithPage), SearchTitleResult.class);
+            MultiVideoResult result = rawResultsSearcher.searchRawResults(
+                    URI.create(uriWithPage), MultiVideoResult.class);
             if (result.isSuccess()) {
                 imdbIds.addAll(result.getImdbIds());
             }

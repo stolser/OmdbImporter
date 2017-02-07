@@ -2,7 +2,7 @@ package com.stolser.search;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class SearchIdResult extends SearchResult {
+public class SingleVideoResult extends SearchResult {
     @JsonProperty("Title")
     private String title;
 
@@ -423,7 +423,7 @@ public class SearchIdResult extends SearchResult {
 
     @Override
     public String toString() {
-        return String.format("SearchIdResult{title='%s', year='%s', rated='%s', released='%s', " +
+        return String.format("SingleVideoResult{title='%s', year='%s', rated='%s', released='%s', " +
                 "runtime='%s', genre='%s', director='%s', writer='%s', actors='%s', plot='%s', " +
                 "language='%s', country='%s', awards='%s', poster='%s', metascore='%s', " +
                 "imdbRating='%s', imdbVotes='%s', imdbId='%s', seriesId='%s', type='%s', " +

@@ -16,6 +16,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.client.RestTemplate;
 
 import javax.sql.DataSource;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 @Configuration
 @ComponentScan(basePackages = {"com.stolser"})
@@ -26,6 +28,8 @@ import javax.sql.DataSource;
 })
 @EnableTransactionManagement(mode = AdviceMode.PROXY)
 public class RootConfig {
+    private static final int SEARCH_THREADS_NUMBER = 10;
+
     @Autowired
     private Environment env;
 
@@ -74,18 +78,23 @@ public class RootConfig {
     }
 
     @Bean
-    public IdSearchEngine searchEngine() {
-        return new ConcurrentIdSearchEngine();
+    public IdSearcher searchEngine() {
+        return new ConcurrentIdSearcher();
     }
 
     @Bean
-    public SearchUtils searchUtils() {
-        return new SearchUtils();
+    public RawResultsSearcher rawResultsSearcher() {
+        return new RawResultsSearcherImpl();
     }
 
     @Bean
-    public VideoSearchEngine videoSearchEngine() {
-        return new ConcurrentVideoSearchEngine();
+    public VideoSearcher videoSearchEngine() {
+        return new ConcurrentVideoSearcher();
+    }
+
+    @Bean
+    public ExecutorService executorService() {
+        return Executors.newFixedThreadPool(SEARCH_THREADS_NUMBER);
     }
 
 //    @Bean
