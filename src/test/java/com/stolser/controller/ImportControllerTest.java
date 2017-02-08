@@ -25,7 +25,6 @@ public class ImportControllerTest {
     private Environment env;
 
     @Autowired
-//    @InjectMocks
     private ImportController importController;
 
     private MockMvc mockMvc;

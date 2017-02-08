@@ -14,7 +14,7 @@ class BasicVideoCreator implements VideoCreator {
     private static final String YEAR_SEPARATOR = "–";
     private static final String COMMA_SEPARATOR = ", ";
     private static final int MIN_IN_HOUR = 60;
-    private static final String DASH_SIGN = "-";
+    private static final String DASH_OR_SPACE_SIGN = "[\\s-]";
     private static final String UNDERSCORE_SIGN = "_";
     private static final String COMMA_SIGN = ",";
     private static final String EMPTY_STRING = "";
@@ -137,7 +137,7 @@ class BasicVideoCreator implements VideoCreator {
         return Arrays.asList(entries.split(COMMA_SEPARATOR))
                 .stream()
                 .map(entry -> {
-                    entry = entry.replaceAll(DASH_SIGN, UNDERSCORE_SIGN);
+                    entry = entry.replaceAll(DASH_OR_SPACE_SIGN, UNDERSCORE_SIGN);
                     return Enum.valueOf(tClass, entry.toUpperCase());
                 })
                 .collect(Collectors.toList());
@@ -222,7 +222,7 @@ class BasicVideoCreator implements VideoCreator {
     }
 
     private String getNormalizedEnumValue(String rated) {
-        return rated.replaceAll(DASH_SIGN, UNDERSCORE_SIGN).toUpperCase();
+        return rated.replaceAll(DASH_OR_SPACE_SIGN, UNDERSCORE_SIGN).toUpperCase();
     }
 
     private int getTotalMinutes(int hours, int minutes) {

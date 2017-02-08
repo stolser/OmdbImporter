@@ -4,6 +4,8 @@ import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
+import static javax.persistence.CascadeType.*;
+
 @Entity(name = "video")
 @Table(name = "video", uniqueConstraints = @UniqueConstraint(columnNames = {"imdb_id"}))
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -31,7 +33,7 @@ public abstract class Video {
     @Column(name = "title")
     private String title;
 
-    @OneToOne(cascade = {CascadeType.ALL})
+    @OneToOne(cascade = {ALL})
     @JoinColumn(name = "years")
     private Year year;
 
@@ -95,7 +97,7 @@ public abstract class Video {
     @Column(name = "imdb_votes")
     private long imdbVotes;
 
-    @OneToOne(cascade = {CascadeType.ALL})
+    @OneToOne(cascade = {REMOVE, PERSIST, REFRESH})
     @JoinColumn(name = "tomatoes_rating")
     private TomatoesRating tomatoesRating;
 
@@ -124,10 +126,12 @@ public abstract class Video {
         PG_13("pg_13.shortDescription", "pg_13.longDescription"),
         TV_14("tv_14.shortDescription", "tv_14.longDescription"),
         TV_MA("tv_14.shortDescription", "tv_14.shortDescription"),
+        APPROVED("tv_14.shortDescription", "tv_14.shortDescription"),
         R("r.shortDescription", "r.longDescription"),
         X("x.shortDescription", "x.longDescription"),
         NC_17("nc_17.shortDescription", "nc_17.longDescription"),
-        NOT_RATED("not_rated.shortDescription", "not_rated.longDescription");
+        NOT_RATED("not_rated.shortDescription", "not_rated.longDescription"),
+        UNRATED("not_rated.shortDescription", "not_rated.longDescription");
 
         private String shortDescription;
         private String longDescription;

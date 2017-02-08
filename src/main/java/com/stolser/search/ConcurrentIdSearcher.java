@@ -25,6 +25,7 @@ public class ConcurrentIdSearcher implements IdSearcher {
     @Override
     public List<String> searchImdbIds(SearchParameters params) {
         URI searchUri = SearchUriProvider.getUriToSearchByParams(params);
+        System.out.println("rawResultsSearcher = " + rawResultsSearcher);
         MultiVideoResult firstResult = rawResultsSearcher.searchRawResults(searchUri, MultiVideoResult.class);
 
         return firstResult.isSuccess() ? searchAllImdbIds(searchUri, firstResult) : new ArrayList<>();

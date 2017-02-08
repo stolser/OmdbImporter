@@ -64,7 +64,10 @@ public class ConcurrentVideoSearcher implements VideoSearcher {
             futureEpisodesList.add(executor.submit(new EpisodesSearcher(seasonSearchUri)));
         }
 
-        return sumUpEpisodesFromAllSeasons(futureEpisodesList);
+        List<Episode> episodes = sumUpEpisodesFromAllSeasons(futureEpisodesList);
+        episodes.forEach(e -> e.setSeries(series));
+
+        return episodes;
     }
 
     private SingleVideoResult fetchSingleVideoResult(String imdbId) {

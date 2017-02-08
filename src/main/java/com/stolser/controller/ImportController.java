@@ -10,17 +10,22 @@ import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.batch.core.repository.JobInstanceAlreadyCompleteException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static com.stolser.ApplicationResources.*;
-import static com.stolser.entity.Video.Type.*;
+import static com.stolser.entity.Video.Type.MOVIE;
+import static com.stolser.entity.Video.Type.SERIES;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
@@ -41,6 +46,12 @@ class ImportController {
     private JobLauncher jobLauncher;
     @Autowired
     private Job job;
+
+    @ResponseStatus(value = HttpStatus.CONFLICT,
+            reason = "Data integrity violation")  // 409
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public void conflict() {
+    }
 
     @RequestMapping(method = GET)
     public String importFormPage(Model model) {
