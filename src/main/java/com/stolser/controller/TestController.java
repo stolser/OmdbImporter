@@ -1,37 +1,33 @@
 package com.stolser.controller;
 
 import com.stolser.entity.Video;
-import com.stolser.repository.VideoRepository;
-import com.stolser.search.IdSearchEngine;
-import com.stolser.search.VideoSearchEngine;
+import com.stolser.search.IdSearcher;
+import com.stolser.search.VideoSearcher;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+
+import static org.springframework.web.bind.annotation.RequestMethod.GET;
+import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 @RestController
 public class TestController {
     @Autowired
-    private VideoSearchEngine videoSearchEngine;
+    private VideoSearcher videoSearcher;
     @Autowired
-    private IdSearchEngine idSearchEngine;
+    private IdSearcher idSearcher;
 
-    @Autowired
-    private VideoRepository videoRepository;
-
-    @RequestMapping(value = "/videos/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/videos/{id}", method = GET)
     public List<Video> getVideoById(@PathVariable String id) {
-        System.out.println("TestController: id = " + id);
-        List<Video> videos = videoSearchEngine.findVideos(id);
-        videoRepository.save(videos);
 
-        return videos;
+        return videoSearcher.searchVideos(id);
     }
 
-    @RequestMapping(value = "/videos", method = RequestMethod.POST)
+    @RequestMapping(value = "/videos", method = POST)
     public List<String> getIdsByTitle(SearchParameters searchParameters) {
-        System.out.println("searchParameters = " + searchParameters);
-
-        return idSearchEngine.findVideoIds(searchParameters);
+        return idSearcher.searchImdbIds(searchParameters);
     }
 }

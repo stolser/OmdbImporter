@@ -1,19 +1,22 @@
 package com.stolser.controller;
 
 public class ProcessImportResult {
-    public static final String RESULT_SUCCESS_MSG = "formPage.import.success";
-    public static final String RESULT_ERROR_MSG = "formPage.import.error";
-    public static final ProcessImportResult ERROR =
-            new ProcessImportResult(false, ProcessImportResult.RESULT_ERROR_MSG, 0);
+    public static final String START_SUCCESS_MSG = "formPage.import.successfulStart";
+    public static final String GENERAL_ERROR_MSG = "formPage.import.generalError";
+    public static final String VALIDATION_ERROR_MSG = "formPage.import.validationError";
+    public static final ProcessImportResult START_SUCCESS =
+            new ProcessImportResult(false, ProcessImportResult.START_SUCCESS_MSG);
+    public static final ProcessImportResult GENERAL_ERROR =
+            new ProcessImportResult(false, ProcessImportResult.GENERAL_ERROR_MSG);
+    public static final ProcessImportResult VALIDATION_ERROR =
+            new ProcessImportResult(false, ProcessImportResult.VALIDATION_ERROR_MSG);
 
     private boolean isSuccess;
     private String message;
-    private int savedVideos;
 
-    public ProcessImportResult(boolean isSuccess, String message, int savedVideos) {
+    public ProcessImportResult(boolean isSuccess, String message) {
         this.isSuccess = isSuccess;
         this.message = message;
-        this.savedVideos = savedVideos;
     }
 
     public boolean isSuccess() {
@@ -32,14 +35,6 @@ public class ProcessImportResult {
         this.message = message;
     }
 
-    public int getSavedVideos() {
-        return savedVideos;
-    }
-
-    public void setSavedVideos(int savedVideos) {
-        this.savedVideos = savedVideos;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -54,9 +49,6 @@ public class ProcessImportResult {
         if (isSuccess != result.isSuccess) {
             return false;
         }
-        if (savedVideos != result.savedVideos) {
-            return false;
-        }
         return message != null ? message.equals(result.message) : result.message == null;
 
     }
@@ -65,7 +57,6 @@ public class ProcessImportResult {
     public int hashCode() {
         int result = (isSuccess ? 1 : 0);
         result = 31 * result + (message != null ? message.hashCode() : 0);
-        result = 31 * result + savedVideos;
         return result;
     }
 }
