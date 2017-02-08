@@ -10,16 +10,18 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.util.List;
+import java.util.concurrent.ForkJoinPool;
 
-import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.*;
 
 public class ConcurrentIdSearcherTest {
-
     @Mock
     private RawResultsSearcher rawSearcher;
     @Mock
     private MultiVideoResult mockResult;
+    @Mock
+    private ForkJoinPool pool;
 
     @InjectMocks
     IdSearcher idSearcher = new ConcurrentIdSearcher();
@@ -27,8 +29,6 @@ public class ConcurrentIdSearcherTest {
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-//        mockResult = Mockito.mock(MultiVideoResult.class);
-
         when(rawSearcher.searchRawResults(any(), any())).thenReturn(mockResult);
 
     }
@@ -37,9 +37,22 @@ public class ConcurrentIdSearcherTest {
     public void searchImdbIds_ShouldReturnEmptyList_WhenItFailed() throws Exception {
         when(mockResult.isSuccess()).thenReturn(false);
 
-        SearchParameters params = new SearchParameters("Hello world", 2002, Video.Type.MOVIE);
-        List<String> ids = new ConcurrentIdSearcher().searchImdbIds(params);
+        List<String> ids = idSearcher.searchImdbIds(getDummyParams());
 
         Assert.assertEquals(0, ids.size());
+    }
+
+    private SearchParameters getDummyParams() {
+        return new SearchParameters("Hello world", 2002, Video.Type.MOVIE);
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void searchImdbIds_WhenResultIsSuccess_PoolIsInvoked_AndExceptionIsThrown() {
+        when(mockResult.isSuccess()).thenReturn(true);
+
+        idSearcher.searchImdbIds(getDummyParams());
+
+        verify(pool, times(1)).invoke(any());
+        verify(pool, times(1)).shutdown();
     }
 }

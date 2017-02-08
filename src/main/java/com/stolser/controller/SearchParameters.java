@@ -2,9 +2,13 @@ package com.stolser.controller;
 
 import com.stolser.entity.Video;
 
+import javax.validation.constraints.NotNull;
+
 public class SearchParameters {
+    @NotNull
     private String searchText;
     private int searchYear;
+    @NotNull
     private Video.Type searchVideoType;
 
     public SearchParameters() {}

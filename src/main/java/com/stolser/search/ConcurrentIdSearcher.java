@@ -4,6 +4,7 @@ import com.stolser.controller.SearchParameters;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.net.URI;
 import java.util.ArrayList;
@@ -16,24 +17,28 @@ import java.util.concurrent.TimeUnit;
 public class ConcurrentIdSearcher implements IdSearcher {
     private static final Logger LOGGER = LoggerFactory.getLogger(ConcurrentIdSearcher.class);
     private static final int RESULT_ITEMS_ON_PAGE = 10;
-    private static final int NUMBER_OF_THREADS = 10;
     private static final int MAX_WAITING_TIME = 20;
+    private static final int FIRST_PAGE_INDEX = 1;
+    private static final int SLEEP_TIME_BEFORE_NEW_REQUEST = 500;
 
     @Autowired
-    RawResultsSearcher rawResultsSearcher;
+    private RawResultsSearcher rawResultsSearcher;
+
+    @Autowired
+    @Qualifier("ForkJoin")
+    private ForkJoinPool pool;
 
     @Override
     public List<String> searchImdbIds(SearchParameters params) {
         URI searchUri = SearchUriProvider.getUriToSearchByParams(params);
-        System.out.println("rawResultsSearcher = " + rawResultsSearcher);
         MultiVideoResult firstResult = rawResultsSearcher.searchRawResults(searchUri, MultiVideoResult.class);
 
         return firstResult.isSuccess() ? searchAllImdbIds(searchUri, firstResult) : new ArrayList<>();
     }
 
     private List<String> searchAllImdbIds(URI searchUri, MultiVideoResult firstResult) {
-        ForkJoinPool pool = new ForkJoinPool(NUMBER_OF_THREADS);
-        RecursiveTask<List<String>> task = new RetrieveIdsTask(1, getTotalPages(firstResult), searchUri);
+        RecursiveTask<List<String>> task =
+                new RetrieveIdsTask(FIRST_PAGE_INDEX, getTotalPages(firstResult), searchUri);
         pool.invoke(task);
 
         long t0 = System.currentTimeMillis();
@@ -71,7 +76,7 @@ public class ConcurrentIdSearcher implements IdSearcher {
 
     private void sleepForSomeTime() {
         try {
-            Thread.sleep(500);
+            Thread.sleep(SLEEP_TIME_BEFORE_NEW_REQUEST);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

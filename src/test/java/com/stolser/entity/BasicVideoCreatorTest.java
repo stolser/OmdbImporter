@@ -113,8 +113,6 @@ public class BasicVideoCreatorTest {
         fillExpectedFields(expected);
 
         assertEquals(expected, actual);
-//        assertEquals(expected.getTomatoesRating(), actual.getTomatoesRating());
-
     }
 
     private void fillExpectedFields(Series expected) throws ParseException {

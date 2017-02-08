@@ -3,6 +3,7 @@ package com.stolser.config;
 import com.stolser.search.*;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.*;
 import org.springframework.core.env.Environment;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
@@ -17,6 +18,7 @@ import org.springframework.web.client.RestTemplate;
 import javax.sql.DataSource;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ForkJoinPool;
 
 @Configuration
 @ComponentScan(basePackages = {"com.stolser"})
@@ -28,6 +30,8 @@ import java.util.concurrent.Executors;
 @EnableTransactionManagement(mode = AdviceMode.PROXY)
 public class RootConfig {
     private static final int SEARCH_THREADS_NUMBER = 10;
+    private static final int NUMBER_OF_THREADS = 10;
+
 
     @Autowired
     private Environment env;
@@ -89,9 +93,16 @@ public class RootConfig {
         return new ConcurrentVideoSearcher();
     }
 
+    @Qualifier("Executor")
     @Bean
     public ExecutorService executorService() {
         return Executors.newFixedThreadPool(SEARCH_THREADS_NUMBER);
+    }
+
+    @Bean
+    @Qualifier("ForkJoin")
+    public ForkJoinPool forkJoinPool() {
+        return new ForkJoinPool(NUMBER_OF_THREADS);
     }
 
 }

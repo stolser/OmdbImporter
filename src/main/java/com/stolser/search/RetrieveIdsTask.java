@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.concurrent.RecursiveTask;
 
 class RetrieveIdsTask extends RecursiveTask<List<String>> {
-    private static final int MAX_PAGES_FOR_ONE_THREAD = 5;
+    static final int MAX_PAGES_FOR_ONE_THREAD = 5;
     private int firstPage;
     private int lastPage;
     private URI searchUri;
@@ -38,7 +38,7 @@ class RetrieveIdsTask extends RecursiveTask<List<String>> {
     }
 
     private boolean canBeProcessedByOneThread() {
-        return (lastPage - firstPage - 1) <= MAX_PAGES_FOR_ONE_THREAD;
+        return (lastPage - firstPage + 1) <= MAX_PAGES_FOR_ONE_THREAD;
     }
 
     private List<String> retrieveImdbIds() {

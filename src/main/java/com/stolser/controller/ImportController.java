@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,15 +36,16 @@ class ImportController {
     static final String YEAR_MIN_ATTR = "yearMin";
     static final String YEAR_MAX_ATTR = "yearMax";
     static final String VIDEO_TYPES_ATTR = "videoTypes";
-    static final String IMPORT_RESULT_ATTR = "importResult";
     private static final Logger LOGGER = LoggerFactory.getLogger(ImportController.class);
-    private static final String IMPORT_DATA_HAS_BEEN_STARTED_RESPONSE = "Import data has been started...";
-    private static final String VALIDATION_ERROR_RESPONSE = "Validation error!";
+    static final String IMPORT_DATA_HAS_BEEN_STARTED_RESPONSE = "Import data has been started...";
+    static final String VALIDATION_ERROR_RESPONSE = "Validation error!";
 
     @Autowired
     private Environment env;
+
     @Autowired
     private JobLauncher jobLauncher;
+
     @Autowired
     private Job job;
 
@@ -51,6 +53,7 @@ class ImportController {
             reason = "Data integrity violation")  // 409
     @ExceptionHandler(DataIntegrityViolationException.class)
     public void conflict() {
+        System.out.println("DataIntegrityViolationException is caught ---------------------------");
     }
 
     @RequestMapping(method = GET)
@@ -72,7 +75,7 @@ class ImportController {
 
     @RequestMapping(method = POST)
     @ResponseBody
-    public String processImport(SearchParameters requestParams, Errors errors) throws Exception {
+    public String processImport(@Valid SearchParameters requestParams, Errors errors) throws Exception {
         if (errors.hasErrors()) {
             LOGGER.debug(String.format("Validation errors occurred. Errors: %s", errors.getAllErrors()));
             return VALIDATION_ERROR_RESPONSE;
@@ -90,11 +93,15 @@ class ImportController {
         }
     }
 
-    private JobParameters getJobParameters(SearchParameters requestParams) {
+    JobParameters getJobParameters(SearchParameters requestParams) {
         return new JobParametersBuilder()
                 .addString(SEARCH_TEXT_PARAM, requestParams.getSearchText())
                 .addLong(SEARCH_YEAR_PARAM, (long) requestParams.getSearchYear())
-                .addString(SEARCH_VIDEO_TYPE_PARAM, requestParams.getSearchVideoType().name())
+                .addString(SEARCH_VIDEO_TYPE_PARAM, getVideoType(requestParams))
                 .toJobParameters();
+    }
+
+    private String getVideoType(SearchParameters requestParams) {
+        return requestParams.getSearchVideoType().name();
     }
 }

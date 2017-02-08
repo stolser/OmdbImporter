@@ -7,6 +7,7 @@ import com.stolser.entity.VideoCreators;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.net.URI;
 import java.util.ArrayList;
@@ -24,6 +25,8 @@ public class ConcurrentVideoSearcher implements VideoSearcher {
 
     @Autowired
     RawResultsSearcher rawResultsSearcher;
+
+    @Qualifier("Executor")
     @Autowired
     ExecutorService executor;
 
