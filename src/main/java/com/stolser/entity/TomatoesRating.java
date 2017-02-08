@@ -265,10 +265,7 @@ public class TomatoesRating {
         if (production != null ? !production.equals(that.production) : that.production != null) {
             return false;
         }
-        if (website != null ? !website.equals(that.website) : that.website != null) {
-            return false;
-        }
-        return video != null ? video.equals(that.video) : that.video == null;
+        return website != null ? website.equals(that.website) : that.website == null;
 
     }
 
@@ -289,7 +286,6 @@ public class TomatoesRating {
         result = 31 * result + (boxOffice != null ? boxOffice.hashCode() : 0);
         result = 31 * result + (production != null ? production.hashCode() : 0);
         result = 31 * result + (website != null ? website.hashCode() : 0);
-        result = 31 * result + (video != null ? video.hashCode() : 0);
         return result;
     }
 }

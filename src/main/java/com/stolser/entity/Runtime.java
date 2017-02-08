@@ -27,6 +27,14 @@ public class Runtime {
         this.minutes = minutes;
     }
 
+    public Runtime() {
+    }
+
+    public Runtime(String original, int minutes) {
+        this.original = original;
+        this.minutes = minutes;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {

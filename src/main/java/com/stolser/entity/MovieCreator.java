@@ -1,10 +1,10 @@
 package com.stolser.entity;
 
-import com.stolser.search.SearchIdResult;
+import com.stolser.search.SingleVideoResult;
 
 public class MovieCreator extends BasicVideoCreator {
     @Override
-    public Video create(SearchIdResult jsonVideo) {
+    public Video create(SingleVideoResult jsonVideo) {
         return fillCommonVideoFields(new Movie(), jsonVideo);
     }
 }

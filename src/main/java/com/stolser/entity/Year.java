@@ -95,4 +95,41 @@ public class Year {
     public void setVersion(int version) {
         this.version = version;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        Year year = (Year) o;
+
+        if (isFinished != year.isFinished) {
+            return false;
+        }
+        if (begin != null ? !begin.equals(year.begin) : year.begin != null) {
+            return false;
+        }
+        if (end != null ? !end.equals(year.end) : year.end != null) {
+            return false;
+        }
+        if (type != year.type) {
+            return false;
+        }
+        return video != null ? video.equals(year.video) : year.video == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = begin != null ? begin.hashCode() : 0;
+        result = 31 * result + (end != null ? end.hashCode() : 0);
+        result = 31 * result + (type != null ? type.hashCode() : 0);
+        result = 31 * result + (isFinished ? 1 : 0);
+        result = 31 * result + (video != null ? video.hashCode() : 0);
+        return result;
+    }
 }

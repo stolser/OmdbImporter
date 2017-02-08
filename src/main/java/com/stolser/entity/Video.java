@@ -67,7 +67,7 @@ public abstract class Video {
     @Column(name = "actor_name")
     private List<String> actors;
 
-    @Column(name = "plot")
+    @Column(name = "plot", length = 1000000)
     private String plot;
 
     @ElementCollection(fetch = FetchType.LAZY)
@@ -334,7 +334,7 @@ public abstract class Video {
         if (this == o) {
             return true;
         }
-        if (o == null || getClass() != o.getClass()) {
+        if (!(o instanceof Video)) {
             return false;
         }
 
@@ -432,9 +432,9 @@ public abstract class Video {
     @Override
     public String toString() {
         return String.format("Video{id=%d, imdbId='%s', type=%s, title='%s', year=%s, mpaaRating=%s, " +
-                "releaseDate=%s, runtime=%s, genres=%s, directors=%s, writers=%s, actors=%s, plot='%s', " +
-                "languages=%s, countries=%s, awards='%s', poster='%s', metascore=%d, imdbRating=%s, " +
-                "imdbVotes=%d, version=%d}", id, imdbId, type, title, year, mpaaRating, releaseDate,
+                        "releaseDate=%s, runtime=%s, genres=%s, directors=%s, writers=%s, actors=%s, plot='%s', " +
+                        "languages=%s, countries=%s, awards='%s', poster='%s', metascore=%d, imdbRating=%s, " +
+                        "imdbVotes=%d, version=%d}", id, imdbId, type, title, year, mpaaRating, releaseDate,
                 runtime, genres, directors, writers, actors, plot, languages, countries, awards, poster,
                 metascore, imdbRating, imdbVotes, version);
     }

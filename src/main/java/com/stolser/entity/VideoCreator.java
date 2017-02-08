@@ -1,7 +1,7 @@
 package com.stolser.entity;
 
-import com.stolser.search.SearchIdResult;
+import com.stolser.search.SingleVideoResult;
 
 public interface VideoCreator {
-    Video create(SearchIdResult jsonVideo);
+    Video create(SingleVideoResult jsonVideo);
 }

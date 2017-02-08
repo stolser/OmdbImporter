@@ -1,6 +1,6 @@
 package com.stolser.entity;
 
-import com.stolser.search.SearchIdResult;
+import com.stolser.search.SingleVideoResult;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -25,7 +25,7 @@ class BasicVideoCreator implements VideoCreator {
         System.out.println("result = " + Arrays.toString("N/A".split(", ")));
     }
 
-    protected Video fillCommonVideoFields(Video video, SearchIdResult json) {
+    protected Video fillCommonVideoFields(Video video, SingleVideoResult json) {
         video.setImdbId(parseImdbId(json.getImdbId()));
         video.setType(parseMediaType(json.getType()));
         video.setTitle(json.getTitle());
@@ -45,7 +45,7 @@ class BasicVideoCreator implements VideoCreator {
         video.setMetascore(parseIntField("Metascore", json.getMetascore()));
         video.setImdbRating(parseImdbRating(json.getImdbRating()));
         video.setImdbVotes(parseImdbVotes(json.getImdbVotes()));
-        video.setTomatoesRating(parseTomatoesRating(json));
+        video.setTomatoesRating(parseTomatoesRating(video, json));
 
         return video;
     }
@@ -111,7 +111,8 @@ class BasicVideoCreator implements VideoCreator {
         }
 
         try {
-            return new SimpleDateFormat("dd MMM YYYY").parse(released);
+            Date date = new SimpleDateFormat("dd MMM YYYY", Locale.US).parse(released);
+            return date;
         } catch (ParseException e) {
             throw new VideoValidationException(
                     String.format("Released date (%s) cannot be parsed.", released));
@@ -193,7 +194,7 @@ class BasicVideoCreator implements VideoCreator {
         }
     }
 
-    private TomatoesRating parseTomatoesRating(SearchIdResult json) {
+    private TomatoesRating parseTomatoesRating(Video video, SingleVideoResult json) {
         TomatoesRating tomato = new TomatoesRating();
         tomato.setTomatoMeter(json.getTomatoMeter());
         tomato.setTomatoImage(json.getTomatoImage());
@@ -210,6 +211,7 @@ class BasicVideoCreator implements VideoCreator {
         tomato.setBoxOffice(json.getBoxOffice());
         tomato.setProduction(json.getProduction());
         tomato.setWebsite(json.getWebsite());
+        tomato.setVideo(video);
 
         return tomato;
     }
@@ -258,7 +260,7 @@ class BasicVideoCreator implements VideoCreator {
     }
 
     @Override
-    public Video create(SearchIdResult jsonVideo) {
+    public Video create(SingleVideoResult jsonVideo) {
         throw new UnsupportedOperationException();
     }
 }

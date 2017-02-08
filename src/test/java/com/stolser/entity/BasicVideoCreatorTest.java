@@ -1,11 +1,18 @@
 package com.stolser.entity;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.stolser.search.SearchIdResult;
+import com.stolser.search.SingleVideoResult;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+
+import static com.stolser.entity.Video.Genre.COMEDY;
+import static com.stolser.entity.Video.Genre.ROMANCE;
+import static com.stolser.entity.Video.Type.SERIES;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
@@ -60,10 +67,9 @@ public class BasicVideoCreatorTest {
         assertNull(actual);
     }
 
-    @Ignore
     @Test
-    public void fillCommonVideoFields_CorrectlyParseJsonIntoVideo() throws Exception {
-        SearchIdResult searchIdResult = new ObjectMapper().readValue("{\n" +
+    public void fillCommonVideoFields_Should_CorrectlyParse_SingleVideoJsonResult_IntoVideo() throws Exception {
+        SingleVideoResult singleVideoResult = new ObjectMapper().readValue("{\n" +
                 "  \"Title\": \"The Big Bang Theory\",\n" +
                 "  \"Year\": \"2007–\",\n" +
                 "  \"Rated\": \"TV-14\",\n" +
@@ -73,11 +79,11 @@ public class BasicVideoCreatorTest {
                 "  \"Director\": \"N/A\",\n" +
                 "  \"Writer\": \"Chuck Lorre, Bill Prady\",\n" +
                 "  \"Actors\": \"Johnny Galecki, Jim Parsons, Kaley Cuoco, Simon Helberg\",\n" +
-                "  \"Plot\": \"Leonard Hofstadter and Sheldon Cooper are both brilliant physicists working at Cal Tech in Pasadena, California. They are colleagues, best friends, and roommates, although in all capacities their relationship is always tested primarily by Sheldon's regimented, deeply eccentric, and non-conventional ways. They are also friends with their Cal Tech colleagues mechanical engineer Howard Wolowitz and astrophysicist Rajesh Koothrappali. The foursome spend their time working on their individual work projects, playing video games, watching science-fiction movies, or reading comic books. As they are self-professed nerds, all have little or no luck with women. When Penny, a pretty woman and an aspiring actress from Omaha, moves into the apartment across the hall from Leonard and Sheldon's, Leonard has another aspiration in life, namely to get Penny to be his girlfriend.\",\n" +
-                "  \"Language\": \"English, Hindi, Italian, Russian, Mandarin, Klingon\",\n" +
+                "  \"Plot\": \"Leonard Hofstadter and Sheldon Cooper are both brilliant physicists working at Cal Tech in Pasadena, California.\",\n" +
+                "  \"Language\": \"English, Hindi, Klingon\",\n" +
                 "  \"Country\": \"USA\",\n" +
                 "  \"Awards\": \"Won 1 Golden Globe. Another 60 wins & 211 nominations.\",\n" +
-                "  \"Poster\": \"https://images-na.ssl-images-amazon.com/images/M/MV5BMTUyNDMxNjQyN15BMl5BanBnXkFtZTgwNzA4NDQwMDI@._V1_SX300.jpg\",\n" +
+                "  \"Poster\": \"https://images-na.ssl-images-amazon.com/images/M/MV5BMTUyNDMxNj.jpg\",\n" +
                 "  \"Metascore\": \"N/A\",\n" +
                 "  \"imdbRating\": \"8.3\",\n" +
                 "  \"imdbVotes\": \"551,410\",\n" +
@@ -86,23 +92,83 @@ public class BasicVideoCreatorTest {
                 "  \"totalSeasons\": \"10\",\n" +
                 "  \"tomatoMeter\": \"N/A\",\n" +
                 "  \"tomatoImage\": \"N/A\",\n" +
-                "  \"tomatoRating\": \"N/A\",\n" +
+                "  \"tomatoRating\": \"84\",\n" +
                 "  \"tomatoReviews\": \"N/A\",\n" +
                 "  \"tomatoFresh\": \"N/A\",\n" +
                 "  \"tomatoRotten\": \"N/A\",\n" +
                 "  \"tomatoConsensus\": \"N/A\",\n" +
-                "  \"tomatoUserMeter\": \"N/A\",\n" +
+                "  \"tomatoUserMeter\": \"94\",\n" +
                 "  \"tomatoUserRating\": \"N/A\",\n" +
                 "  \"tomatoUserReviews\": \"N/A\",\n" +
                 "  \"tomatoURL\": \"N/A\",\n" +
-                "  \"DVD\": \"N/A\",\n" +
+                "  \"DVD\": \"18 Oct 2008\",\n" +
                 "  \"BoxOffice\": \"N/A\",\n" +
                 "  \"Production\": \"N/A\",\n" +
                 "  \"Website\": \"N/A\",\n" +
                 "  \"Response\": \"True\"\n" +
-                "}", SearchIdResult.class);
+                "}", SingleVideoResult.class);
 
-        Video expected = VideoCreators.newSeriesCreator().create(searchIdResult);
+        Video actual = VideoCreators.newSeriesCreator().create(singleVideoResult);
+        Series expected = new Series();
+        fillExpectedFields(expected);
 
+        assertEquals(expected, actual);
+//        assertEquals(expected.getTomatoesRating(), actual.getTomatoesRating());
+
+    }
+
+    private void fillExpectedFields(Series expected) throws ParseException {
+        expected.setTitle("The Big Bang Theory");
+        setExpectedYear(expected);
+        expected.setMpaaRating(Video.MpaaRating.TV_14);
+        expected.setReleaseDate(new SimpleDateFormat("dd.MM.yyyy").parse("01.01.2006"));
+        expected.setRuntime(new Runtime("22 min", 22));
+        expected.setGenres(Arrays.asList(COMEDY, ROMANCE));
+        expected.setDirectors(new ArrayList<>());
+        expected.setWriters(Arrays.asList("Chuck Lorre", "Bill Prady"));
+        expected.setActors(Arrays.asList("Johnny Galecki", "Jim Parsons", "Kaley Cuoco", "Simon Helberg"));
+        expected.setPlot("Leonard Hofstadter and Sheldon Cooper are both brilliant physicists working at Cal Tech in Pasadena, California.");
+        expected.setLanguages(Arrays.asList("English", "Hindi", "Klingon"));
+        expected.setCountries(Arrays.asList("USA"));
+        expected.setAwards("Won 1 Golden Globe. Another 60 wins & 211 nominations.");
+        expected.setPoster("https://images-na.ssl-images-amazon.com/images/M/MV5BMTUyNDMxNj.jpg");
+        expected.setMetascore(-1);
+        expected.setImdbRating(8.3);
+        expected.setImdbVotes(551410);
+        expected.setImdbId("tt0898266");
+        expected.setType(SERIES);
+        expected.setTotalSeasons(10);
+        setExpectedTomatoes(expected);
+    }
+
+    private void setExpectedTomatoes(Series expected) {
+        TomatoesRating tomatoes = new TomatoesRating();
+        tomatoes.setTomatoRating("84");
+        tomatoes.setTomatoMeter("N/A");
+        tomatoes.setTomatoImage("N/A");
+        tomatoes.setTomatoRotten("N/A");
+        tomatoes.setTomatoFresh("N/A");
+        tomatoes.setTomatoReviews("N/A");
+        tomatoes.setTomatoUserRating("N/A");
+        tomatoes.setTomatoUserMeter("94");
+        tomatoes.setTomatoConsensus("N/A");
+        tomatoes.setDvdRelease("18 Oct 2008");
+        tomatoes.setTomatoUrl("N/A");
+        tomatoes.setTomatoUserReviews("N/A");
+        tomatoes.setWebsite("N/A");
+        tomatoes.setProduction("N/A");
+        tomatoes.setBoxOffice("N/A");
+        tomatoes.setVideo(expected);
+
+        expected.setTomatoesRating(tomatoes);
+    }
+
+    private void setExpectedYear(Video expected) {
+        Year year = new Year();
+        year.setType(Year.Type.RANGE);
+        year.setFinished(false);
+        year.setBegin("2007");
+        year.setEnd(null);
+        expected.setYear(year);
     }
 }

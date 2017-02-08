@@ -1,10 +1,10 @@
 package com.stolser.entity;
 
-import com.stolser.search.SearchIdResult;
+import com.stolser.search.SingleVideoResult;
 
 public class SeriesCreator extends BasicVideoCreator {
     @Override
-    public Video create(SearchIdResult json) {
+    public Video create(SingleVideoResult json) {
         Series series = new Series();
         series.setTotalSeasons(parseIntField("TotalSeasons", json.getTotalSeasons()));
 
