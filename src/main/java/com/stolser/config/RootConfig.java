@@ -1,7 +1,5 @@
 package com.stolser.config;
 
-import com.stolser.controller.VideoImporter;
-import com.stolser.controller.VideoImporterImpl;
 import com.stolser.search.*;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,11 +66,6 @@ public class RootConfig {
     }
 
     @Bean
-    public VideoImporter videoImporter() {
-        return new VideoImporterImpl();
-    }
-
-    @Bean
     public RestTemplate restTemplate() {
         return new RestTemplate();
     }
@@ -84,7 +77,7 @@ public class RootConfig {
 
     @Bean
     public RawResultsSearcher rawResultsSearcher() {
-        return new RawResultsSearcherImpl();
+        return RawResultsSearcherImpl.getInstance();
     }
 
     @Bean

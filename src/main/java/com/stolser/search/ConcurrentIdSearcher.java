@@ -14,7 +14,7 @@ import java.util.concurrent.RecursiveTask;
 import java.util.concurrent.TimeUnit;
 
 public class ConcurrentIdSearcher implements IdSearcher {
-    private static final Logger LOGGER = LoggerFactory.getLogger(RawResultsSearcherImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ConcurrentIdSearcher.class);
     private static final int RESULT_ITEMS_ON_PAGE = 10;
     private static final int NUMBER_OF_THREADS = 10;
     private static final int MAX_WAITING_TIME = 20;

@@ -6,7 +6,7 @@
 
         <form class="form-horizontal" role="form"
               method="post"
-              action="/videos">
+              action="/import">
 
             <div class="form-group">
                 <h3><fmt:message key="formPage.title.top"/></h3>

@@ -14,8 +14,19 @@ public class RawResultsSearcherImpl implements RawResultsSearcher {
     private static final Logger LOGGER = LoggerFactory.getLogger(RawResultsSearcherImpl.class);
     private static final int SEARCH_REQUEST_ATTEMPTS_MAX = 2;
     private static final int WAIT_TIME_BEFORE_RETRY = 2;
-    private static final String SLEEPING_DURING_GETTING_URI_WAS_INTERRUPTED = "Sleeping during getting a uri (%s) was interrupted.";
-    private static final String BEFORE_GETTING_URL = "before getting url: '{}'";
+    private static final String SLEEPING_DURING_GETTING_URI_WAS_INTERRUPTED =
+            "Sleeping during getting a uri (%s) was interrupted.";
+    private static final String BEFORE_GETTING_URL = "before fetching data from url: '{}'";
+
+    private RawResultsSearcherImpl() {}
+
+    private static class InstanceHolder {
+        final static RawResultsSearcherImpl INSTANCE = new RawResultsSearcherImpl();
+    }
+
+    public static RawResultsSearcherImpl getInstance() {
+        return InstanceHolder.INSTANCE;
+    }
 
     @Autowired
     private RestTemplate restTemplate;

@@ -1,7 +1,5 @@
 package com.stolser.search;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,8 +11,7 @@ class RetrieveIdsTask extends RecursiveTask<List<String>> {
     private int lastPage;
     private URI searchUri;
 
-    @Autowired
-    RawResultsSearcher rawResultsSearcher;
+    private RawResultsSearcher rawResultsSearcher = RawResultsSearcherImpl.getInstance();
 
     RetrieveIdsTask(int firstPage, int lastPage, URI searchUri) {
         this.firstPage = firstPage;

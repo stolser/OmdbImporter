@@ -11,6 +11,4 @@ public final class ApplicationResources {
     public static final String IMPORT_FORM_URI = "/import";
 
     private ApplicationResources() {}
-
-
 }
