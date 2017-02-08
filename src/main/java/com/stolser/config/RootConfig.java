@@ -45,12 +45,11 @@ public class RootConfig {
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource,
                                                                        JpaVendorAdapter vendorAdapter) {
-        LocalContainerEntityManagerFactoryBean entityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
+        LocalContainerEntityManagerFactoryBean entityManagerFactoryBean =
+                new LocalContainerEntityManagerFactoryBean();
         entityManagerFactoryBean.setDataSource(dataSource);
         entityManagerFactoryBean.setJpaVendorAdapter(vendorAdapter);
         entityManagerFactoryBean.setPackagesToScan(env.getRequiredProperty("entitymanager.packages.to.scan"));
-//        entityManagerFactoryBean.setPersistenceProviderClass(HibernatePersistence.class);
-//        entityManagerFactoryBean.setJpaProperties(hibProperties());
 
         return entityManagerFactoryBean;
     }
@@ -61,7 +60,6 @@ public class RootConfig {
         adapter.setDatabase(Database.MYSQL);
         adapter.setShowSql(true);
         adapter.setGenerateDdl(true);
-//        adapter.setDatabasePlatform();
         return adapter;
     }
 
@@ -90,28 +88,4 @@ public class RootConfig {
         return Executors.newFixedThreadPool(SEARCH_THREADS_NUMBER);
     }
 
-//    @Bean
-//    public HibernateTransactionManager transactionManager() {
-//        HibernateTransactionManager transactionManager = new HibernateTransactionManager();
-//        transactionManager.setSessionFactory(sessionFactory(dataSource()).getObject());
-//        return transactionManager;
-//    }
-//
-//    @Bean
-//    public LocalSessionFactoryBean sessionFactory(DataSource dataSource) {
-//        LocalSessionFactoryBean sessionFactoryBean = new LocalSessionFactoryBean();
-//        sessionFactoryBean.setDataSource(dataSource);
-//        sessionFactoryBean.setPackagesToScan(env.getRequiredProperty("entitymanager.packages.to.scan"));
-//        sessionFactoryBean.setHibernateProperties(hibProperties());
-//        return sessionFactoryBean;
-//    }
-//
-//    private Properties hibProperties() {
-//        Properties properties = new Properties();
-//        properties.put("hibernate.dialect", env.getRequiredProperty("hibernate.dialect"));
-//        properties.put("hibernate.show_sql", env.getRequiredProperty("hibernate.show_sql"));
-//        properties.put("hibernate.hbm2ddl.auto", env.getRequiredProperty("hibernate.hbm2ddl.auto"));
-//        properties.put("hibernate.connection.autocommit", env.getRequiredProperty("hibernate.connection.autocommit"));
-//        return properties;
-//    }
 }

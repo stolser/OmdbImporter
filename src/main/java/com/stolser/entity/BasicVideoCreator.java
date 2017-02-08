@@ -21,10 +21,6 @@ class BasicVideoCreator implements VideoCreator {
     private static Pattern hourPattern = Pattern.compile("(\\d+)\\sh");
     private static Pattern minutePattern = Pattern.compile("(\\d+)\\smin");
 
-    public static void main(String[] args) {
-        System.out.println("result = " + Arrays.toString("N/A".split(", ")));
-    }
-
     protected Video fillCommonVideoFields(Video video, SingleVideoResult json) {
         video.setImdbId(parseImdbId(json.getImdbId()));
         video.setType(parseMediaType(json.getType()));

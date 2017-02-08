@@ -37,10 +37,8 @@ class ImportController {
 
     @Autowired
     private Environment env;
-
     @Autowired
     private JobLauncher jobLauncher;
-
     @Autowired
     private Job job;
 

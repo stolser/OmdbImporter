@@ -17,7 +17,6 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 
-//@Component
 public class ConcurrentVideoSearcher implements VideoSearcher {
     private static final Logger LOGGER = LoggerFactory.getLogger(ConcurrentVideoSearcher.class);
     private static final String GETTING_RESULTS_FROM_FUTURE_EXCEPTION_MESSAGE =
@@ -25,7 +24,6 @@ public class ConcurrentVideoSearcher implements VideoSearcher {
 
     @Autowired
     RawResultsSearcher rawResultsSearcher;
-
     @Autowired
     ExecutorService executor;
 
