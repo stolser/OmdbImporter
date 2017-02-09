@@ -6,10 +6,7 @@ import com.stolser.batch.VideoWriter;
 import com.stolser.entity.Video;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
-import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
-import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
-import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
-import org.springframework.batch.core.configuration.annotation.StepScope;
+import org.springframework.batch.core.configuration.annotation.*;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemReader;
@@ -30,16 +27,19 @@ public class BatchConfig {
     public StepBuilderFactory stepBuilderFactory;
 
     @StepScope
+    @JobScope
     @Bean
     public ItemReader reader() {
         return new VideoIdReader();
     }
 
+    @JobScope
     @Bean
     public ItemProcessor processor() {
         return new VideoIdProcessor();
     }
 
+    @JobScope
     @Bean
     public ItemWriter writer() {
         return new VideoWriter();
