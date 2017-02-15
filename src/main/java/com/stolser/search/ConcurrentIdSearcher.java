@@ -4,6 +4,7 @@ import com.stolser.controller.SearchParameters;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.net.URI;
 import java.util.ArrayList;
@@ -13,6 +14,7 @@ import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.RecursiveTask;
 import java.util.concurrent.TimeUnit;
 
+@Component
 public class ConcurrentIdSearcher implements IdSearcher {
     private static final Logger LOGGER = LoggerFactory.getLogger(ConcurrentIdSearcher.class);
     private static final int RESULT_ITEMS_ON_PAGE = 10;

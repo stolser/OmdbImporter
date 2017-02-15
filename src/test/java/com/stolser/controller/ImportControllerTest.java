@@ -1,6 +1,6 @@
 package com.stolser.controller;
 
-import com.stolser.entity.Video;
+import com.stolser.entity.VideoType;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -78,7 +78,7 @@ public class ImportControllerTest {
 
         verify(jobLauncher, times(1)).run(job, importController.getJobParameters(
                 new SearchParameters(searchText, Integer.parseInt(searchYear),
-                        Video.Type.valueOf(searchTypeName))));
+                        VideoType.valueOf(searchTypeName))));
     }
 
 }

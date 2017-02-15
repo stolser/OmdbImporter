@@ -1,13 +1,11 @@
 package com.stolser.search;
 
-import com.stolser.entity.Episode;
-import com.stolser.entity.Series;
-import com.stolser.entity.Video;
-import com.stolser.entity.VideoCreators;
+import com.stolser.entity.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 import java.net.URI;
 import java.util.ArrayList;
@@ -18,6 +16,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 
+@Component
 public class ConcurrentVideoSearcher implements VideoSearcher {
     private static final Logger LOGGER = LoggerFactory.getLogger(ConcurrentVideoSearcher.class);
     private static final String GETTING_RESULTS_FROM_FUTURE_EXCEPTION_MESSAGE =
@@ -79,8 +78,8 @@ public class ConcurrentVideoSearcher implements VideoSearcher {
         return rawResultsSearcher.searchRawResults(searchUri, SingleVideoResult.class);
     }
 
-    private Video.Type parseVideoType(SingleVideoResult firstResult) {
-        return Video.Type.valueOf(firstResult.getType().toUpperCase());
+    private VideoType parseVideoType(SingleVideoResult firstResult) {
+        return VideoType.valueOf(firstResult.getType().toUpperCase());
     }
 
     private List<Episode> sumUpEpisodesFromAllSeasons(List<Future<List<Episode>>> futureEpisodesList) {

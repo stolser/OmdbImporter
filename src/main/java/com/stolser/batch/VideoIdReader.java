@@ -1,7 +1,7 @@
 package com.stolser.batch;
 
 import com.stolser.controller.SearchParameters;
-import com.stolser.entity.Video;
+import com.stolser.entity.VideoType;
 import com.stolser.search.IdSearcher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,6 +48,6 @@ public class VideoIdReader implements ItemReader<String> {
 
     private SearchParameters getSearchParameters() {
         return new SearchParameters(searchText, (int) searchYear,
-                Video.Type.valueOf(searchVideoType.toUpperCase()));
+                VideoType.valueOf(searchVideoType.toUpperCase()));
     }
 }

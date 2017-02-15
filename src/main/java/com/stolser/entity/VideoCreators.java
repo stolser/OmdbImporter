@@ -15,7 +15,7 @@ public final class VideoCreators {
         return new EpisodeCreator();
     }
 
-    public static VideoCreator newVideoCreator(Video.Type type) {
+    public static VideoCreator newVideoCreator(VideoType type) {
         switch (type) {
             case MOVIE:
                 return newMovieCreator();

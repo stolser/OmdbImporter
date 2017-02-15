@@ -29,7 +29,7 @@ class BasicVideoCreator implements VideoCreator {
         video.setMpaaRating(parseMpaaRating(json.getRated()));
         video.setReleaseDate(parseReleaseDate(json.getReleased()));
         video.setRuntime(parseRuntime(json.getRuntime()));
-        video.setGenres(parseListOfEnums(json.getGenre(), Video.Genre.class));
+        video.setGenres(parseListOfEnums(json.getGenre(), VideoGenre.class));
         video.setDirectors(parseListOfStrings(json.getDirector()));
         video.setWriters(parseListOfStrings(json.getWriter()));
         video.setActors(parseListOfStrings(json.getActors()));
@@ -54,13 +54,13 @@ class BasicVideoCreator implements VideoCreator {
         return imdbId;
     }
 
-    private Video.Type parseMediaType(String type) {
+    private VideoType parseMediaType(String type) {
         if (isNotAvailable(type)) {
             throw new VideoValidationException("Video media type must be present.");
         }
 
         try {
-            return Video.Type.valueOf(type.toUpperCase());
+            return VideoType.valueOf(type.toUpperCase());
         } catch (IllegalArgumentException e) {
             throw new VideoValidationException(
                     String.format("Video media type (%s) cannot be parsed.", type), e);
@@ -88,13 +88,13 @@ class BasicVideoCreator implements VideoCreator {
         return year;
     }
 
-    private Video.MpaaRating parseMpaaRating(String rated) {
+    private VideoMpaaRating parseMpaaRating(String rated) {
         if (isNotAvailable(rated)) {
             return null;
         }
 
         try {
-            return Video.MpaaRating.valueOf(getNormalizedEnumValue(rated));
+            return VideoMpaaRating.valueOf(getNormalizedEnumValue(rated));
         } catch (IllegalArgumentException e) {
             throw new VideoValidationException(
                     String.format("MpaaRating (%s) cannot be parsed.", rated), e);

@@ -1,6 +1,6 @@
 package com.stolser.controller;
 
-import com.stolser.entity.Video;
+import com.stolser.entity.VideoType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.Job;
@@ -25,8 +25,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.stolser.ApplicationResources.*;
-import static com.stolser.entity.Video.Type.MOVIE;
-import static com.stolser.entity.Video.Type.SERIES;
+import static com.stolser.entity.VideoType.MOVIE;
+import static com.stolser.entity.VideoType.SERIES;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
@@ -65,8 +65,8 @@ class ImportController {
         return IMPORT_FORM_VIEW_NAME;
     }
 
-    private List<Video.Type> getVideoTypes() {
-        List<Video.Type> types = new ArrayList<>();
+    private List<VideoType> getVideoTypes() {
+        List<VideoType> types = new ArrayList<>();
         types.add(MOVIE);
         types.add(SERIES);
 

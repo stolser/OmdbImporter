@@ -1,6 +1,6 @@
 package com.stolser.controller;
 
-import com.stolser.entity.Video;
+import com.stolser.entity.VideoType;
 
 import javax.validation.constraints.NotNull;
 
@@ -9,11 +9,11 @@ public class SearchParameters {
     private String searchText;
     private int searchYear;
     @NotNull
-    private Video.Type searchVideoType;
+    private VideoType searchVideoType;
 
     public SearchParameters() {}
 
-    public SearchParameters(String searchText, int searchYear, Video.Type searchVideoType) {
+    public SearchParameters(String searchText, int searchYear, VideoType searchVideoType) {
         this.searchText = searchText;
         this.searchYear = searchYear;
         this.searchVideoType = searchVideoType;
@@ -35,11 +35,11 @@ public class SearchParameters {
         this.searchYear = searchYear;
     }
 
-    public Video.Type getSearchVideoType() {
+    public VideoType getSearchVideoType() {
         return searchVideoType;
     }
 
-    public void setSearchVideoType(Video.Type searchVideoType) {
+    public void setSearchVideoType(VideoType searchVideoType) {
         this.searchVideoType = searchVideoType;
     }
 

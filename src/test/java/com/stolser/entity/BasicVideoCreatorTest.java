@@ -10,9 +10,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import static com.stolser.entity.Video.Genre.COMEDY;
-import static com.stolser.entity.Video.Genre.ROMANCE;
-import static com.stolser.entity.Video.Type.SERIES;
+import static com.stolser.entity.VideoGenre.COMEDY;
+import static com.stolser.entity.VideoGenre.ROMANCE;
+import static com.stolser.entity.VideoType.SERIES;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
@@ -118,7 +118,7 @@ public class BasicVideoCreatorTest {
     private void fillExpectedFields(Series expected) throws ParseException {
         expected.setTitle("The Big Bang Theory");
         setExpectedYear(expected);
-        expected.setMpaaRating(Video.MpaaRating.TV_14);
+        expected.setMpaaRating(VideoMpaaRating.TV_14);
         expected.setReleaseDate(new SimpleDateFormat("dd.MM.yyyy").parse("01.01.2006"));
         expected.setRuntime(new Runtime("22 min", 22));
         expected.setGenres(Arrays.asList(COMEDY, ROMANCE));

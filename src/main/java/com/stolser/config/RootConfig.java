@@ -1,6 +1,7 @@
 package com.stolser.config;
 
-import com.stolser.search.*;
+import com.stolser.search.RawResultsSearcher;
+import com.stolser.search.RawResultsSearcherImpl;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -76,18 +77,8 @@ public class RootConfig {
     }
 
     @Bean
-    public IdSearcher searchEngine() {
-        return new ConcurrentIdSearcher();
-    }
-
-    @Bean
     public RawResultsSearcher rawResultsSearcher() {
         return RawResultsSearcherImpl.getInstance();
-    }
-
-    @Bean
-    public VideoSearcher videoSearchEngine() {
-        return new ConcurrentVideoSearcher();
     }
 
     @Qualifier("Executor")

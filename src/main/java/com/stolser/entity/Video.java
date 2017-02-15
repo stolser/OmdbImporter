@@ -28,7 +28,7 @@ public abstract class Video {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "video_type")
-    private Type type;
+    private VideoType type;
 
     @Column(name = "title")
     private String title;
@@ -39,7 +39,7 @@ public abstract class Video {
 
     @Enumerated(value = EnumType.STRING)
     @Column(name = "mpaa_rating")
-    private MpaaRating mpaaRating;
+    private VideoMpaaRating mpaaRating;
 
     @Temporal(TemporalType.DATE)
     @Column(name = "release_date")
@@ -52,7 +52,7 @@ public abstract class Video {
     @CollectionTable(name = "genre")
     @Enumerated(value = EnumType.STRING)
     @Column(name = "genre_name")
-    private List<Genre> genres;
+    private List<VideoGenre> genres;
 
     @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(name = "director")
@@ -104,59 +104,6 @@ public abstract class Video {
     @Version
     private int version;
 
-    public enum Type {
-        MOVIE("formPage.movie.label"),
-        SERIES("formPage.series.label"),
-        EPISODE("formPage.episode.label");
-
-        private String messageKey;
-
-        Type(String messageKey) {
-            this.messageKey = messageKey;
-        }
-
-        public String getMessageKey() {
-            return messageKey;
-        }
-    }
-
-    public enum MpaaRating {
-        G("g.shortDescription", "g.longDescription"),
-        PG("pg.shortDescription", "pg.longDescription"),
-        PG_13("pg_13.shortDescription", "pg_13.longDescription"),
-        TV_14("tv_14.shortDescription", "tv_14.longDescription"),
-        TV_MA("tv_14.shortDescription", "tv_14.shortDescription"),
-        APPROVED("tv_14.shortDescription", "tv_14.shortDescription"),
-        R("r.shortDescription", "r.longDescription"),
-        X("x.shortDescription", "x.longDescription"),
-        NC_17("nc_17.shortDescription", "nc_17.longDescription"),
-        NOT_RATED("not_rated.shortDescription", "not_rated.longDescription"),
-        UNRATED("not_rated.shortDescription", "not_rated.longDescription");
-
-        private String shortDescription;
-        private String longDescription;
-
-        MpaaRating(String shortDescription, String longDescription) {
-            this.shortDescription = shortDescription;
-            this.longDescription = longDescription;
-        }
-
-        public String getShortDescription() {
-            return shortDescription;
-        }
-
-        public String getLongDescription() {
-            return longDescription;
-        }
-    }
-
-    public enum Genre {
-        COMEDY, SHORT, DRAMA, FAMILY, TALK_SHOW, ROMANCE, ANIMATION,
-        MUSIC, ACTION, FANTASY, ADVENTURE, SCI_FI, CRIME, GAME_SHOW,
-        NEWS, HORROR, MYSTERY, MUSICAL, DOCUMENTARY, THRILLER, REALITY_TV,
-        SPORT, HISTORY, WESTERN, WAR, BIOGRAPHY, ADULT;
-    }
-
     public int getVersion() {
         return version;
     }
@@ -181,11 +128,11 @@ public abstract class Video {
         this.imdbId = imdbId;
     }
 
-    public Type getType() {
+    public VideoType getType() {
         return type;
     }
 
-    public void setType(Type type) {
+    public void setType(VideoType type) {
         this.type = type;
     }
 
@@ -205,11 +152,11 @@ public abstract class Video {
         this.year = year;
     }
 
-    public MpaaRating getMpaaRating() {
+    public VideoMpaaRating getMpaaRating() {
         return mpaaRating;
     }
 
-    public void setMpaaRating(MpaaRating mpaaRating) {
+    public void setMpaaRating(VideoMpaaRating mpaaRating) {
         this.mpaaRating = mpaaRating;
     }
 
@@ -229,11 +176,11 @@ public abstract class Video {
         this.runtime = runtime;
     }
 
-    public List<Genre> getGenres() {
+    public List<VideoGenre> getGenres() {
         return genres;
     }
 
-    public void setGenres(List<Genre> genres) {
+    public void setGenres(List<VideoGenre> genres) {
         this.genres = genres;
     }
 
